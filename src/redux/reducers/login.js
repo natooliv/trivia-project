@@ -1,4 +1,4 @@
-import { START_TRIVIA } from '../actions/actionTypes';
+import { CLEAR_STATE, START_TRIVIA } from '../actions/actionTypes';
 
 const INITIAL_STATE = {
   name: '',
@@ -8,6 +8,8 @@ const INITIAL_STATE = {
 
 const loginReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+  case CLEAR_STATE:
+    return INITIAL_STATE;
   case START_TRIVIA:
     return {
       ...state,
