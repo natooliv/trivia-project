@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import Login from './Login';
+import Login from '../pages/Login';
 
 export default class Routes extends Component {
   render() {

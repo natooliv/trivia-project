@@ -31,7 +31,7 @@ class Login extends Component {
     setItem('token', token);
     history.push('/trivia');
   };
-
+  
   render() {
     const {
       name,
