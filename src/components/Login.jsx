@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import validator from 'validator';
+import PropTypes from 'prop-types';
 
 export default class Login extends Component {
   state = {
@@ -21,6 +22,11 @@ export default class Login extends Component {
 
   sendInfo = (e) => {
     e.preventDefault();
+  };
+
+  clickButton = () => {
+    const { history } = this.props;
+    history.push('/settings');
   };
 
   render() {
@@ -60,7 +66,21 @@ export default class Login extends Component {
             Play
           </button>
         </form>
+
+        <button
+          type="submit"
+          data-testid="btn-settings"
+          onClick={ () => this.clickButton() }
+        >
+          Settings
+        </button>
       </div>
     );
   }
 }
+
+Login.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+};
