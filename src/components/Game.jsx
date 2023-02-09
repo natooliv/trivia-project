@@ -7,6 +7,7 @@ import CardOptions from './CardOptions';
 
 const half = 0.5;
 const errorNumber = 3;
+const startCounter = -1;
 class Game extends Component {
   state = {
     questions: [{
@@ -42,7 +43,7 @@ class Game extends Component {
       ...questions[counter].incorrect_answers,
     ].sort(() => half - Math.random());
     console.log([options]);
-    let answerIndex = -1;
+    let answerIndex = startCounter;
     return (
       <div>
         <p
