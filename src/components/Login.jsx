@@ -72,7 +72,7 @@ export default class Login extends Component {
           data-testid="btn-settings"
           onClick={ () => this.clickButton() }
         >
-          Settings
+          Configurações
         </button>
       </div>
     );
