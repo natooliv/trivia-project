@@ -19,9 +19,9 @@ export default class Login extends Component {
     this.setState({ buttonDisabled: !(emailValidate && nameValidate) });
   };
 
-  sendInfo = (e) => {
+  /* sendInfo = (e) => {
     e.preventDefault();
-  };
+  }; */
 
   render() {
     const {
