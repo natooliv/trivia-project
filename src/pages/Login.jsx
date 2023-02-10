@@ -26,12 +26,10 @@ class Login extends Component {
     const { dispatch } = this.props;
     e.preventDefault();
     await dispatch(requestAPIToken());
-    const { token, history } = this.props;
-    console.log(token);
-    setItem('token', token);
+    const { history } = this.props;
     history.push('/trivia');
   };
-  
+
   render() {
     const {
       name,
