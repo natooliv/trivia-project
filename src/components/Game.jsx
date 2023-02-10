@@ -34,6 +34,11 @@ class Game extends Component {
     }
   };
 
+  answerQuestion = ({ target }) => {
+    const { questions, counter } = this.state;
+    console.log(target.innerText === questions[counter].correct_answer);
+  };
+
   render() {
     const {
       questions,
@@ -42,7 +47,6 @@ class Game extends Component {
     const options = [questions[counter].correct_answer,
       ...questions[counter].incorrect_answers,
     ].sort(() => half - Math.random());
-    console.log([options]);
     let answerIndex = startCounter;
     return (
       <div>
@@ -61,12 +65,12 @@ class Game extends Component {
             if (option === questions[counter].incorrect_answers[answerIndex + 1]) {
               answerIndex += 1;
             }
-            console.log(option, questions[counter].incorrect_answers);
             return (<CardOptions
               option={ option }
               key={ `option-${index}` }
               testid={ option === questions[counter].correct_answer ? (
                 'correct-answer') : `wrong-answer-${answerIndex}` }
+              answer={ this.answerQuestion }
             />);
           })}
         </div>
