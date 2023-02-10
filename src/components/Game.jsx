@@ -2,12 +2,13 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getQuestions } from '../data/apiRequest';
-import { clearState } from '../redux/actions/actions';
+import { clearState, increaseScore } from '../redux/actions/actions';
 import CardOptions from './CardOptions';
 
 const half = 0.5;
 const errorNumber = 3;
 const startCounter = -1;
+const defaultScore = 10;
 class Game extends Component {
   state = {
     questions: [{
@@ -36,7 +37,14 @@ class Game extends Component {
 
   answerQuestion = ({ target }) => {
     const { questions, counter } = this.state;
-    console.log(target.innerText === questions[counter].correct_answer);
+    const { dispatch } = this.props;
+    const cur = questions[counter];
+    console.log(questions);
+    const check = target.innerText === cur.correct_answer;
+    const values = { hard: 3, medium: 2, easy: 1 };
+    const points = defaultScore + (values[cur.difficulty]);
+    if (check) dispatch(increaseScore(points));
+    console.log(points);
   };
 
   render() {
@@ -44,12 +52,21 @@ class Game extends Component {
       questions,
       counter,
     } = this.state;
+    const {
+      score,
+      timeout,
+    } = this.props;
     const options = [questions[counter].correct_answer,
       ...questions[counter].incorrect_answers,
     ].sort(() => half - Math.random());
     let answerIndex = startCounter;
     return (
       <div>
+        <div>
+          <p>
+            {score}
+          </p>
+        </div>
         <p
           data-testid="question-category"
         >
@@ -71,6 +88,7 @@ class Game extends Component {
               testid={ option === questions[counter].correct_answer ? (
                 'correct-answer') : `wrong-answer-${answerIndex}` }
               answer={ this.answerQuestion }
+              timerEnd={ timeout }
             />);
           })}
         </div>
@@ -86,4 +104,8 @@ Game.propTypes = {
   }),
 }.isRequired;
 
-export default connect()(Game);
+const mapStateToProps = (state) => ({
+  ...state.player,
+});
+
+export default connect(mapStateToProps)(Game);

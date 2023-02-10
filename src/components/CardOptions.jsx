@@ -3,11 +3,12 @@ import React, { Component } from 'react';
 
 export default class CardOptions extends Component {
   render() {
-    const { option, testid, answer } = this.props;
+    const { option, testid, answer, timerEnd } = this.props;
     return (
       <button
         data-testid={ testid }
         onClick={ answer }
+        disabled={ timerEnd }
       >
         { option }
       </button>
