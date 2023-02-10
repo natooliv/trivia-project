@@ -30,6 +30,11 @@ class Login extends Component {
     history.push('/trivia');
   };
 
+  clickButton = () => {
+    const { history } = this.props;
+    history.push('/settings');
+  };
+
   render() {
     const {
       name,
@@ -67,6 +72,14 @@ class Login extends Component {
             Play
           </button>
         </form>
+
+        <button
+          type="submit"
+          data-testid="btn-settings"
+          onClick={ () => this.clickButton() }
+        >
+          Configurações
+        </button>
       </div>
     );
   }
@@ -79,8 +92,4 @@ Login.propTypes = {
   }),
 }.isRequired;
 
-const mapStateToProps = ({ loginReducer }) => ({
-  token: loginReducer.token,
-});
-
-export default connect(mapStateToProps)(Login);
+export default connect()(Login);
