@@ -2,13 +2,14 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getQuestions } from '../data/apiRequest';
-import { clearState } from '../redux/actions/actions';
+import { clearState, increaseScore } from '../redux/actions/actions';
 import CardOptions from './CardOptions';
 import './game.css';
 
 const half = 0.5;
 const errorNumber = 3;
 const startCounter = -1;
+const defaultScore = 10;
 class Game extends Component {
   state = {
     questions: [{
@@ -38,12 +39,17 @@ class Game extends Component {
 
   colorsQuestions = () => {
     this.setState({ result: true });
-    // if (target.className === 'correct') {
-    //   target.border = '3px solid rgb(6, 240, 15)';
-    // }
-    // if (target.className === 'wrong') {
-    //   target.border = '3px solid red';
-    // }
+  };
+  answerQuestion = ({ target }) => {
+    const { questions, counter } = this.state;
+    const { dispatch } = this.props;
+    const cur = questions[counter];
+    console.log(questions);
+    const check = target.innerText === cur.correct_answer;
+    const values = { hard: 3, medium: 2, easy: 1 };
+    const points = defaultScore + (values[cur.difficulty]);
+    if (check) dispatch(increaseScore(points));
+    console.log(points);
   };
 
   render() {
@@ -52,13 +58,21 @@ class Game extends Component {
       counter,
       result,
     } = this.state;
+    const {
+      score,
+      timeout,
+    } = this.props;
     const options = [questions[counter].correct_answer,
       ...questions[counter].incorrect_answers,
     ].sort(() => half - Math.random());
-    console.log([options]);
     let answerIndex = startCounter;
     return (
       <div>
+        <div>
+          <p>
+            {score}
+          </p>
+        </div>
         <p
           data-testid="question-category"
         >
@@ -74,16 +88,18 @@ class Game extends Component {
             if (option === questions[counter].incorrect_answers[answerIndex + 1]) {
               answerIndex += 1;
             }
-            console.log(option, questions[counter].incorrect_answers);
             return (<CardOptions
               option={ option }
               key={ `option-${index}` }
               testid={ option === questions[counter].correct_answer ? (
                 'correct-answer') : `wrong-answer-${answerIndex}` }
+
               className={ result }
               onClick={ (e) => this.colorsQuestions(e) }
               type={ option === questions[counter].correct_answer
                 ? 'correct' : 'wrong' }
+              answer={ this.answerQuestion }
+              timerEnd={ timeout }
             />);
           })}
         </div>
@@ -99,4 +115,8 @@ Game.propTypes = {
   }),
 }.isRequired;
 
-export default connect()(Game);
+const mapStateToProps = (state) => ({
+  ...state.player,
+});
+
+export default connect(mapStateToProps)(Game);

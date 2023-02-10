@@ -1,14 +1,21 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
+buttonFunctions = () => {
+  const { answer, onClick } = this.props;
+  answer();
+  onClick
+};
+
 export default class CardOptions extends Component {
   render() {
-    const { option, testid, className, onClick, type } = this.props;
+    const { option, testid, className, timerEnd, type } = this.props;
     return (
       <button
         data-testid={ testid }
         className={ className && type }
-        onClick={ onClick }
+        onClick={ this.buttonFunctions }
+        disabled={ timerEnd }
       >
         { option }
 
@@ -19,4 +26,5 @@ export default class CardOptions extends Component {
 
 CardOptions.propTypes = {
   response: PropTypes.string,
+  answer: PropTypes.func,
 }.isRequired;
