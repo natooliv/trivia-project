@@ -3,9 +3,12 @@ import React, { Component } from 'react';
 
 export default class CardOptions extends Component {
   render() {
-    const { option, testid } = this.props;
+    const { option, testid, answer } = this.props;
     return (
-      <button data-testid={ testid }>
+      <button
+        data-testid={ testid }
+        onClick={ answer }
+      >
         { option }
       </button>
     );
@@ -14,4 +17,5 @@ export default class CardOptions extends Component {
 
 CardOptions.propTypes = {
   response: PropTypes.string,
+  answer: PropTypes.func,
 }.isRequired;
