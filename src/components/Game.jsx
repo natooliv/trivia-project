@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getQuestions } from '../data/apiRequest';
-import { clearState, increaseScore } from '../redux/actions/actions';
+import { clearState, createOptions, increaseScore } from '../redux/actions/actions';
 import CardOptions from './CardOptions';
 import './game.css';
 
@@ -26,8 +26,14 @@ class Game extends Component {
 
   getQuestiosnFromData = async () => {
     const { dispatch, history } = this.props;
+    const { counter } = this.state;
     try {
       const questions = await getQuestions();
+      const options = [questions.results[counter].correct_answer,
+        ...questions.results[counter].incorrect_answers,
+      ].sort(() => half - Math.random());
+      dispatch(createOptions(options));
+      console.log(options);
       if (questions.response_code === errorNumber) throw new Error('Token Inválido');
       this.setState({ questions: questions.results });
     } catch (error) {
@@ -40,6 +46,7 @@ class Game extends Component {
   colorsQuestions = () => {
     this.setState({ result: true });
   };
+
   answerQuestion = ({ target }) => {
     const { questions, counter } = this.state;
     const { dispatch } = this.props;
@@ -52,6 +59,12 @@ class Game extends Component {
     console.log(points);
   };
 
+  buttonFunctions = (e) => {
+    this.answerQuestion(e);
+    this.colorsQuestions(e);
+    console.log(e);
+  };
+
   render() {
     const {
       questions,
@@ -61,10 +74,8 @@ class Game extends Component {
     const {
       score,
       timeout,
+      options,
     } = this.props;
-    const options = [questions[counter].correct_answer,
-      ...questions[counter].incorrect_answers,
-    ].sort(() => half - Math.random());
     let answerIndex = startCounter;
     return (
       <div>
@@ -93,12 +104,10 @@ class Game extends Component {
               key={ `option-${index}` }
               testid={ option === questions[counter].correct_answer ? (
                 'correct-answer') : `wrong-answer-${answerIndex}` }
-
               className={ result }
-              onClick={ (e) => this.colorsQuestions(e) }
+              func={ this.buttonFunctions }
               type={ option === questions[counter].correct_answer
                 ? 'correct' : 'wrong' }
-              answer={ this.answerQuestion }
               timerEnd={ timeout }
             />);
           })}
@@ -117,6 +126,7 @@ Game.propTypes = {
 
 const mapStateToProps = (state) => ({
   ...state.player,
+  ...state.loginReducer,
 });
 
 export default connect(mapStateToProps)(Game);

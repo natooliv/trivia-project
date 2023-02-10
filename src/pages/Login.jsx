@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import validator from 'validator';
-import { requestAPIToken } from '../redux/actions/actions';
+import { requestAPIToken, saveUserData } from '../redux/actions/actions';
 
 class Login extends Component {
   state = {
@@ -24,8 +24,10 @@ class Login extends Component {
 
   sendInfo = async (e) => {
     const { dispatch } = this.props;
+    const { name, email } = this.state;
     e.preventDefault();
     await dispatch(requestAPIToken());
+    await dispatch(saveUserData(name, email));
     const { history } = this.props;
     history.push('/trivia');
   };
