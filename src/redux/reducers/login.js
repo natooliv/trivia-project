@@ -1,10 +1,20 @@
+import { CLEAR_STATE, START_TRIVIA } from '../actions/actionTypes';
+
 const INITIAL_STATE = {
   name: '',
   email: '',
+  token: '',
 };
 
 const loginReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+  case CLEAR_STATE:
+    return INITIAL_STATE;
+  case START_TRIVIA:
+    return {
+      ...state,
+      token: action.token,
+    };
   default:
     return state;
   }

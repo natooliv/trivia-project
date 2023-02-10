@@ -1,8 +1,10 @@
-import React, { Component } from 'react';
-import validator from 'validator';
 import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import validator from 'validator';
+import { requestAPIToken } from '../redux/actions/actions';
 
-export default class Login extends Component {
+class Login extends Component {
   state = {
     name: '',
     email: '',
@@ -20,8 +22,12 @@ export default class Login extends Component {
     this.setState({ buttonDisabled: !(emailValidate && nameValidate) });
   };
 
-  sendInfo = (e) => {
+  sendInfo = async (e) => {
+    const { dispatch } = this.props;
     e.preventDefault();
+    await dispatch(requestAPIToken());
+    const { history } = this.props;
+    history.push('/trivia');
   };
 
   clickButton = () => {
@@ -80,7 +86,10 @@ export default class Login extends Component {
 }
 
 Login.propTypes = {
+  dispatch: PropTypes.func,
   history: PropTypes.shape({
     push: PropTypes.func,
-  }).isRequired,
-};
+  }),
+}.isRequired;
+
+export default connect()(Login);
