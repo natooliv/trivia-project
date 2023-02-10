@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { getQuestions } from '../data/apiRequest';
 import { clearState, increaseScore } from '../redux/actions/actions';
 import CardOptions from './CardOptions';
+import './game.css';
 
 const half = 0.5;
 const errorNumber = 3;
@@ -16,6 +17,7 @@ class Game extends Component {
       incorrect_answers: ['', ''],
     }],
     counter: 0,
+    result: false,
   };
 
   componentDidMount() {
@@ -35,6 +37,9 @@ class Game extends Component {
     }
   };
 
+  colorsQuestions = () => {
+    this.setState({ result: true });
+  };
   answerQuestion = ({ target }) => {
     const { questions, counter } = this.state;
     const { dispatch } = this.props;
@@ -51,6 +56,7 @@ class Game extends Component {
     const {
       questions,
       counter,
+      result,
     } = this.state;
     const {
       score,
@@ -87,6 +93,11 @@ class Game extends Component {
               key={ `option-${index}` }
               testid={ option === questions[counter].correct_answer ? (
                 'correct-answer') : `wrong-answer-${answerIndex}` }
+
+              className={ result }
+              onClick={ (e) => this.colorsQuestions(e) }
+              type={ option === questions[counter].correct_answer
+                ? 'correct' : 'wrong' }
               answer={ this.answerQuestion }
               timerEnd={ timeout }
             />);
