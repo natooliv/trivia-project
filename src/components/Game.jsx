@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { getQuestions } from '../data/apiRequest';
 import { clearState } from '../redux/actions/actions';
 import CardOptions from './CardOptions';
+import './game.css';
 
 const half = 0.5;
 const errorNumber = 3;
@@ -15,6 +16,7 @@ class Game extends Component {
       incorrect_answers: ['', ''],
     }],
     counter: 0,
+    result: false,
   };
 
   componentDidMount() {
@@ -34,10 +36,21 @@ class Game extends Component {
     }
   };
 
+  colorsQuestions = () => {
+    this.setState({ result: true });
+    // if (target.className === 'correct') {
+    //   target.border = '3px solid rgb(6, 240, 15)';
+    // }
+    // if (target.className === 'wrong') {
+    //   target.border = '3px solid red';
+    // }
+  };
+
   render() {
     const {
       questions,
       counter,
+      result,
     } = this.state;
     const options = [questions[counter].correct_answer,
       ...questions[counter].incorrect_answers,
@@ -67,6 +80,10 @@ class Game extends Component {
               key={ `option-${index}` }
               testid={ option === questions[counter].correct_answer ? (
                 'correct-answer') : `wrong-answer-${answerIndex}` }
+              className={ result }
+              onClick={ (e) => this.colorsQuestions(e) }
+              type={ option === questions[counter].correct_answer
+                ? 'correct' : 'wrong' }
             />);
           })}
         </div>
