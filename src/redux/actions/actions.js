@@ -1,4 +1,4 @@
-import { CLEAR_STATE, START_TRIVIA } from './actionTypes';
+import { CLEAR_STATE, START_TRIVIA, TIMEOUT_ACTION } from './actionTypes';
 
 export const startTrivia = (token) => {
   localStorage.setItem('token', token);
@@ -18,4 +18,9 @@ export const requestAPIToken = () => (dispatch) => {
 
 export const clearState = () => ({
   type: CLEAR_STATE,
+});
+
+export const timeoutAction = (payload) => ({
+  type: TIMEOUT_ACTION,
+  timeout: payload,
 });
