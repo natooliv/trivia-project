@@ -1,13 +1,13 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
-buttonFunctions = () => {
-  const { answer, onClick } = this.props;
-  answer();
-  onClick
-};
-
 export default class CardOptions extends Component {
+  buttonFunctions = () => {
+    const { answer, onClick } = this.props;
+    answer();
+    onClick();
+  };
+
   render() {
     const { option, testid, className, timerEnd, type } = this.props;
     return (

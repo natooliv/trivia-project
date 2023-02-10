@@ -40,7 +40,9 @@ class Game extends Component {
   colorsQuestions = () => {
     this.setState({ result: true });
   };
+
   answerQuestion = ({ target }) => {
+    console.log(target);
     const { questions, counter } = this.state;
     const { dispatch } = this.props;
     const cur = questions[counter];
@@ -93,7 +95,6 @@ class Game extends Component {
               key={ `option-${index}` }
               testid={ option === questions[counter].correct_answer ? (
                 'correct-answer') : `wrong-answer-${answerIndex}` }
-
               className={ result }
               onClick={ (e) => this.colorsQuestions(e) }
               type={ option === questions[counter].correct_answer

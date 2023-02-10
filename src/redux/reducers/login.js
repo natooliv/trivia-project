@@ -16,11 +16,11 @@ const loginReducer = (state = INITIAL_STATE, action) => {
       ...state,
       token: action.token,
     };
-  case TIMEOUT_ACTION:   //RELOCAR PARA O REDUCER CORRETO
-    return{
+  case TIMEOUT_ACTION: // RELOCAR PARA O REDUCER CORRETO
+    return {
       ...state,
       timeout: action.timeout,
-    }
+    };
   default:
     return state;
   }
