@@ -18,22 +18,27 @@ class Game extends Component {
     }],
     counter: 0,
     result: false,
+    btnNext: false,
   };
 
   componentDidMount() {
     this.getQuestiosnFromData();
   }
 
+  NextQuestion = (questions) => {
+    const { counter } = this.state;
+    const { dispatch } = this.props;
+    const options = [questions.results[counter].correct_answer,
+      ...questions.results[counter].incorrect_answers,
+    ].sort(() => half - Math.random());
+    dispatch(createOptions(options));
+  };
+
   getQuestiosnFromData = async () => {
     const { dispatch, history } = this.props;
-    const { counter } = this.state;
     try {
       const questions = await getQuestions();
-      const options = [questions.results[counter].correct_answer,
-        ...questions.results[counter].incorrect_answers,
-      ].sort(() => half - Math.random());
-      dispatch(createOptions(options));
-      console.log(options);
+      this.NextQuestion(questions);
       if (questions.response_code === errorNumber) throw new Error('Token Inválido');
       this.setState({ questions: questions.results });
     } catch (error) {
@@ -43,8 +48,21 @@ class Game extends Component {
     }
   };
 
+  questionFromButtonNext = () => {
+    const { counter } = this.state;
+
+    this.setState({
+      counter: counter + 1,
+    }, this.getQuestiosnFromData);
+  };
+
   colorsQuestions = () => {
-    this.setState({ result: true });
+    this.setState(
+      {
+        result: true,
+        btnNext: true,
+      },
+    );
   };
 
   answerQuestion = ({ target }) => {
@@ -70,6 +88,7 @@ class Game extends Component {
       questions,
       counter,
       result,
+      btnNext,
     } = this.state;
     const {
       timeout,
@@ -106,6 +125,14 @@ class Game extends Component {
             />);
           })}
         </div>
+        {btnNext && (
+          <button
+            data-testid="btn-next"
+            onClick={ this.questionFromButtonNext }
+          >
+            Next
+          </button>
+        )}
       </div>
     );
   }
