@@ -4,18 +4,25 @@ import md5 from 'crypto-js/md5';
 import { connect } from 'react-redux';
 
 class Header extends Component {
-  componentDidMount() {
-    const { email } = this.props;
-    console.log(email, md5(email).toString());
-  }
-
   render() {
-    const { email } = this.props;
-    console.log(email);
+    const { email, name, score } = this.props;
     return (
       <div>
-        <p>{md5(email).toString()}</p>
-        <div>{email}</div>
+        <img
+          src={ `https://www.gravatar.com/avatar/${md5(email).toString()}` }
+          data-testid="header-profile-picture"
+          alt="imagem de perfil"
+        />
+        <p
+          data-testid="header-player-name"
+        >
+          {name}
+        </p>
+        <p
+          data-testid="header-score"
+        >
+          {score}
+        </p>
       </div>
     );
   }
@@ -26,5 +33,6 @@ Header.propTypes = {
 }.isRequired;
 const mapStateToProps = (state) => ({
   ...state.loginReducer,
+  ...state.player,
 });
 export default connect(mapStateToProps)(Header);

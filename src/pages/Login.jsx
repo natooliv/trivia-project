@@ -26,8 +26,9 @@ class Login extends Component {
     const { dispatch } = this.props;
     const { name, email } = this.state;
     e.preventDefault();
-    await dispatch(requestAPIToken());
     await dispatch(saveUserData(name, email));
+    await dispatch(requestAPIToken());
+    console.log(localStorage.getItem('token'));
     const { history } = this.props;
     history.push('/trivia');
   };

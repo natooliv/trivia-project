@@ -1,7 +1,6 @@
-import { CREATE_OPTIONS, INCREASE_SCORE, SAVE_USER_DATA } from '../actions/actionTypes';
+import { CREATE_OPTIONS, INCREASE_SCORE } from '../actions/actionTypes';
 
 const INITIAL_STATE = {
-  name: '',
   assertions: '',
   score: 0,
   gravatarEmail: '',

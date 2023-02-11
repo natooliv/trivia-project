@@ -49,12 +49,12 @@ class Game extends Component {
 
   answerQuestion = ({ target }) => {
     const { questions, counter } = this.state;
-    const { dispatch } = this.props;
+    const { dispatch, timer } = this.props;
     const cur = questions[counter];
     console.log(questions);
     const check = target.innerText === cur.correct_answer;
     const values = { hard: 3, medium: 2, easy: 1 };
-    const points = defaultScore + (values[cur.difficulty]);
+    const points = defaultScore + (values[cur.difficulty] * timer);
     if (check) dispatch(increaseScore(points));
     console.log(points);
   };
@@ -72,18 +72,12 @@ class Game extends Component {
       result,
     } = this.state;
     const {
-      score,
       timeout,
       options,
     } = this.props;
     let answerIndex = startCounter;
     return (
       <div>
-        <div>
-          <p>
-            {score}
-          </p>
-        </div>
         <p
           data-testid="question-category"
         >
