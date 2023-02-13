@@ -57,7 +57,6 @@ class Game extends Component {
   questionFromButtonNext = async () => {
     const { counter, questions } = this.state;
     const { dispatch, history } = this.props;
-    console.log(questions[counter + 1]);
     if (questions[counter + 1]) {
       this.setState({
         counter: counter + 1,
@@ -82,11 +81,9 @@ class Game extends Component {
   };
 
   answerQuestion = async ({ target }) => {
-    console.log(target);
     const { questions, counter } = this.state;
     const { dispatch, timer } = this.props;
     const cur = questions[counter];
-    console.log(questions);
     const check = target.innerText === cur.correct_answer;
     const values = { hard: 3, medium: 2, easy: 1 };
     const points = defaultScore + (values[cur.difficulty] * timer);
