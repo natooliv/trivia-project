@@ -81,7 +81,7 @@ class Game extends Component {
     );
   };
 
-  answerQuestion = ({ target }) => {
+  answerQuestion = async ({ target }) => {
     console.log(target);
     const { questions, counter } = this.state;
     const { dispatch, timer } = this.props;
@@ -90,6 +90,8 @@ class Game extends Component {
     const check = target.innerText === cur.correct_answer;
     const values = { hard: 3, medium: 2, easy: 1 };
     const points = defaultScore + (values[cur.difficulty] * timer);
+    await dispatch(refreshTimer(false));
+    await dispatch(timeoutAction({ isTimeout: true, seconds: 0 }));
     if (check) dispatch(increaseScore(points));
     console.log(points);
   };
