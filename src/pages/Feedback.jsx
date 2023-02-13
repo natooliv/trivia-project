@@ -2,11 +2,12 @@ import PropTypes from 'prop-types';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
+import HomeButton from '../components/HomeButton';
 import RankingButton from '../components/RankingButton';
 import { clearStore } from '../redux/actions/actions';
 
-class Feedbacks extends Component {
- page = () => {
+class Feedback extends Component {
+  page = () => {
     const { history, dispatch } = this.props;
     dispatch(clearStore());
     history.push('/');
@@ -27,7 +28,8 @@ class Feedbacks extends Component {
           }
         </h1>
         <RankingButton />
-         <button
+        <HomeButton />
+        <button
           type="button"
           data-testid="btn-play-again"
           onClick={ this.page }
@@ -52,4 +54,4 @@ const mapStateToProps = (state) => ({
   assertions: state.player.assertions,
 });
 
-export default connect(mapStateToProps)(Feedbacks);
+export default connect(mapStateToProps)(Feedback);

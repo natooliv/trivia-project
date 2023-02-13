@@ -18,12 +18,12 @@ const player = (state = INITIAL_STATE, action) => {
     return { ...state,
       score: state.score + action.payload,
       assertions: state.assertions + 1,
-     };
+    };
   case 'CLEAR_STORE':
     return {
       ...INITIAL_STATE,
-    }; 
-    
+    };
+
   default:
     return state;
   }
