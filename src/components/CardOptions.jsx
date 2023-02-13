@@ -9,12 +9,12 @@ export default class CardOptions extends Component {
   };
 
   render() {
-    const { option, testid, className, timerEnd, type } = this.props;
+    const { option, testid, className, timerEnd, type, func } = this.props;
     return (
       <button
         data-testid={ testid }
-        className={ className && type }
-        onClick={ this.buttonFunctions }
+        className={ className ? type : undefined }
+        onClick={ func }
         disabled={ timerEnd }
       >
         { option }
@@ -26,5 +26,4 @@ export default class CardOptions extends Component {
 
 CardOptions.propTypes = {
   response: PropTypes.string,
-  answer: PropTypes.func,
 }.isRequired;

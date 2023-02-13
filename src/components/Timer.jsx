@@ -5,7 +5,7 @@ import { timeoutAction } from '../redux/actions/actions';
 
 class Timer extends Component {
   state = {
-    seconds: 10,
+    seconds: 30,
   };
 
   componentDidMount() {
@@ -29,7 +29,7 @@ class Timer extends Component {
       }, oneSec);
       const { isTimeout } = this.state;
       console.log(isTimeout);
-      dispatch(timeoutAction(isTimeout));
+      dispatch(timeoutAction(this.state));
     }
   }
 
