@@ -12,7 +12,7 @@ export default class Routes extends Component {
         <Route exact path="/" component={ Login } />
         <Route exact path="/settings" component={ Settings } />
         <Route exact path="/trivia" render={ (props) => <Trivia { ...props } /> } />
-        <Route exact path="/feedback" component={ Feedback } />
+        <Route exact path="/feedback" render={ (props) => <Feedback { ...props } /> } />
       </Switch>
     );
   }

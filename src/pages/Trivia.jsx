@@ -1,17 +1,18 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Header from '../components/Header';
 import Game from '../components/Game';
 import Timer from '../components/Timer';
 
-export default class Trivia extends Component {
+class Trivia extends Component {
   render() {
-    const { history } = this.props;
+    const { history, timerBool } = this.props;
     return (
       <div>
         <Header />
         <Game history={ history } />
-        <Timer />
+        { timerBool && <Timer /> }
       </div>
     );
   }
@@ -20,3 +21,8 @@ export default class Trivia extends Component {
 Trivia.propTypes = {
   history: PropTypes.func,
 }.isRequired;
+
+const mapStateToProps = (state) => ({
+  ...state.player,
+});
+export default connect(mapStateToProps)(Trivia);
