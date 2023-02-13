@@ -9,3 +9,5 @@ export const INCREASE_SCORE = 'INCREASE_SCORE';
 export const SAVE_USER_DATA = 'SAVE_USER_DATA';
 
 export const CREATE_OPTIONS = 'CREATE_OPTIONS';
+
+export const REFRESH_TIMER = 'REFRESH_TIMER';

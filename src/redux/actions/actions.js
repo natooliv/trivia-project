@@ -1,7 +1,12 @@
-import { CLEAR_STATE,
+import {
+  CLEAR_STATE,
   START_TRIVIA,
-
-  TIMEOUT_ACTION, INCREASE_SCORE, SAVE_USER_DATA, CREATE_OPTIONS } from './actionTypes';
+  TIMEOUT_ACTION,
+  INCREASE_SCORE,
+  SAVE_USER_DATA,
+  CREATE_OPTIONS,
+  REFRESH_TIMER,
+} from './actionTypes';
 
 export const startTrivia = (token) => {
   localStorage.setItem('token', token);
@@ -43,4 +48,9 @@ export const saveUserData = (name, email) => ({
 export const createOptions = (options) => ({
   type: CREATE_OPTIONS,
   payload: options,
+});
+
+export const refreshTimer = (bool) => ({
+  type: REFRESH_TIMER,
+  payload: bool,
 });

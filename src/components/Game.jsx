@@ -2,7 +2,13 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getQuestions } from '../data/apiRequest';
-import { clearState, createOptions, increaseScore } from '../redux/actions/actions';
+import {
+  clearState,
+  createOptions,
+  increaseScore,
+  refreshTimer,
+  timeoutAction,
+} from '../redux/actions/actions';
 import CardOptions from './CardOptions';
 import './game.css';
 
@@ -48,16 +54,21 @@ class Game extends Component {
     }
   };
 
-  questionFromButtonNext = () => {
+  questionFromButtonNext = async () => {
     const { counter, questions } = this.state;
+    const { dispatch, history } = this.props;
     console.log(questions[counter + 1]);
     if (questions[counter + 1]) {
-      this.NextQuestion(questions)
       this.setState({
         counter: counter + 1,
-      });
+        result: false,
+        btnNext: false,
+      }, () => this.NextQuestion(questions));
+      await dispatch(timeoutAction(this.state));
+      await dispatch(refreshTimer(false));
+      await dispatch(refreshTimer(true));
     } else {
-      console.log('Feedback');
+      history.push('/feedback');
     }
   };
 
@@ -96,6 +107,7 @@ class Game extends Component {
       result,
       btnNext,
     } = this.state;
+    // console.log(questions);
     const {
       timeout,
       options,
@@ -118,6 +130,7 @@ class Game extends Component {
             if (option === questions[counter].incorrect_answers[answerIndex + 1]) {
               answerIndex += 1;
             }
+            // console.log(option, questions[counter].correct_answer);
             return (<CardOptions
               option={ option }
               key={ `option-${index}` }
