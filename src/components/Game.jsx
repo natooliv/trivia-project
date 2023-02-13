@@ -28,8 +28,8 @@ class Game extends Component {
   NextQuestion = (questions) => {
     const { counter } = this.state;
     const { dispatch } = this.props;
-    const options = [questions.results[counter].correct_answer,
-      ...questions.results[counter].incorrect_answers,
+    const options = [questions[counter].correct_answer,
+      ...questions[counter].incorrect_answers,
     ].sort(() => half - Math.random());
     dispatch(createOptions(options));
   };
@@ -38,7 +38,7 @@ class Game extends Component {
     const { dispatch, history } = this.props;
     try {
       const questions = await getQuestions();
-      this.NextQuestion(questions);
+      this.NextQuestion(questions.results);
       if (questions.response_code === errorNumber) throw new Error('Token Inválido');
       this.setState({ questions: questions.results });
     } catch (error) {
@@ -49,11 +49,16 @@ class Game extends Component {
   };
 
   questionFromButtonNext = () => {
-    const { counter } = this.state;
-
-    this.setState({
-      counter: counter + 1,
-    }, this.getQuestiosnFromData);
+    const { counter, questions } = this.state;
+    console.log(questions[counter + 1]);
+    if (questions[counter + 1]) {
+      this.NextQuestion(questions)
+      this.setState({
+        counter: counter + 1,
+      });
+    } else {
+      console.log('Feedback');
+    }
   };
 
   colorsQuestions = () => {

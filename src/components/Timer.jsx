@@ -27,8 +27,8 @@ class Timer extends Component {
           isTimeout: state.seconds - 1 <= 0,
         }));
       }, oneSec);
-      const { isTimeout } = this.state;
-      console.log(isTimeout);
+      // const { isTimeout } = this.state;
+      // console.log(isTimeout);
       dispatch(timeoutAction(this.state));
     }
   }
