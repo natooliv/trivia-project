@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
+import RankingButton from '../components/RankingButton';
 
 class Feedbacks extends Component {
   render() {
@@ -18,6 +19,7 @@ class Feedbacks extends Component {
             assertions < MIN ? 'Could be better...' : 'Well Done!'
           }
         </h1>
+        <RankingButton />
       </>
     );
   }
