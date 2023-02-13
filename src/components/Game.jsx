@@ -54,6 +54,12 @@ class Game extends Component {
     this.setState({
       counter: counter + 1,
     }, this.getQuestiosnFromData);
+
+    const four = 4;
+    if (counter >= four) {
+      const { history } = this.props;
+      history.push('/feedback');
+    }
   };
 
   colorsQuestions = () => {
