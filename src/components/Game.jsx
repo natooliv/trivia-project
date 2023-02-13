@@ -2,7 +2,13 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getQuestions } from '../data/apiRequest';
-import { clearState, createOptions, increaseScore } from '../redux/actions/actions';
+import {
+  clearState,
+  createOptions,
+  increaseScore,
+  refreshTimer,
+  timeoutAction,
+} from '../redux/actions/actions';
 import CardOptions from './CardOptions';
 import './game.css';
 
@@ -28,8 +34,8 @@ class Game extends Component {
   NextQuestion = (questions) => {
     const { counter } = this.state;
     const { dispatch } = this.props;
-    const options = [questions.results[counter].correct_answer,
-      ...questions.results[counter].incorrect_answers,
+    const options = [questions[counter].correct_answer,
+      ...questions[counter].incorrect_answers,
     ].sort(() => half - Math.random());
     dispatch(createOptions(options));
   };
@@ -38,7 +44,7 @@ class Game extends Component {
     const { dispatch, history } = this.props;
     try {
       const questions = await getQuestions();
-      this.NextQuestion(questions);
+      this.NextQuestion(questions.results);
       if (questions.response_code === errorNumber) throw new Error('Token Inválido');
       this.setState({ questions: questions.results });
     } catch (error) {
@@ -48,12 +54,22 @@ class Game extends Component {
     }
   };
 
-  questionFromButtonNext = () => {
-    const { counter } = this.state;
-
-    this.setState({
-      counter: counter + 1,
-    }, this.getQuestiosnFromData);
+  questionFromButtonNext = async () => {
+    const { counter, questions } = this.state;
+    const { dispatch, history } = this.props;
+    console.log(questions[counter + 1]);
+    if (questions[counter + 1]) {
+      this.setState({
+        counter: counter + 1,
+        result: false,
+        btnNext: false,
+      }, () => this.NextQuestion(questions));
+      await dispatch(timeoutAction(this.state));
+      await dispatch(refreshTimer(false));
+      await dispatch(refreshTimer(true));
+    } else {
+      history.push('/feedback');
+    }
   };
 
   colorsQuestions = () => {
@@ -91,6 +107,7 @@ class Game extends Component {
       result,
       btnNext,
     } = this.state;
+    // console.log(questions);
     const {
       timeout,
       options,
@@ -113,6 +130,7 @@ class Game extends Component {
             if (option === questions[counter].incorrect_answers[answerIndex + 1]) {
               answerIndex += 1;
             }
+            // console.log(option, questions[counter].correct_answer);
             return (<CardOptions
               option={ option }
               key={ `option-${index}` }

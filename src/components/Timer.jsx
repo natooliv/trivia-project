@@ -9,6 +9,8 @@ class Timer extends Component {
   };
 
   componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch(timeoutAction(this.state));
     const oneSec = 1000;
     setTimeout(() => {
       this.setState((state) => ({
@@ -27,10 +29,12 @@ class Timer extends Component {
           isTimeout: state.seconds - 1 <= 0,
         }));
       }, oneSec);
-      const { isTimeout } = this.state;
-      console.log(isTimeout);
       dispatch(timeoutAction(this.state));
     }
+  }
+
+  componentWillUnmount() {
+    this.setState({ seconds: 30 });
   }
 
   render() {
