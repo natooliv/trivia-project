@@ -66,6 +66,7 @@ class Game extends Component {
   };
 
   answerQuestion = ({ target }) => {
+    console.log(target);
     const { questions, counter } = this.state;
     const { dispatch, timer } = this.props;
     const cur = questions[counter];
