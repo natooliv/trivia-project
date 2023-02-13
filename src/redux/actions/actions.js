@@ -6,6 +6,7 @@ import {
   SAVE_USER_DATA,
   CREATE_OPTIONS,
   REFRESH_TIMER,
+  CLEAR_STORE,
 } from './actionTypes';
 
 export const startTrivia = (token) => {
@@ -53,4 +54,8 @@ export const createOptions = (options) => ({
 export const refreshTimer = (bool) => ({
   type: REFRESH_TIMER,
   payload: bool,
+});
+
+export const clearStore = () => ({
+  type: CLEAR_STORE,
 });

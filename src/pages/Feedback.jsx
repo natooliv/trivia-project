@@ -3,8 +3,15 @@ import { Component } from 'react';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
 import RankingButton from '../components/RankingButton';
+import { clearStore } from '../redux/actions/actions';
 
 class Feedbacks extends Component {
+ page = () => {
+    const { history, dispatch } = this.props;
+    dispatch(clearStore());
+    history.push('/');
+  };
+
   render() {
     const MIN = 3;
     const { assertions, score } = this.props;
@@ -20,13 +27,24 @@ class Feedbacks extends Component {
           }
         </h1>
         <RankingButton />
+         <button
+          type="button"
+          data-testid="btn-play-again"
+          onClick={ this.page }
+        >
+          Play Again
+        </button>
       </>
     );
   }
 }
 
-Feedbacks.propTypes = {
+Feedback.propTypes = {
+  dispatch: PropTypes.func,
   assertions: PropTypes.number,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }),
 }.isRequired;
 
 const mapStateToProps = (state) => ({
