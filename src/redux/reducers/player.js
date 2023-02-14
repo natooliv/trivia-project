@@ -1,4 +1,5 @@
-import { CREATE_OPTIONS, INCREASE_SCORE, REFRESH_TIMER } from '../actions/actionTypes';
+import { CREATE_OPTIONS, INCREASE_SCORE,
+  REFRESH_TIMER, CLEAR_STATE } from '../actions/actionTypes';
 
 const INITIAL_STATE = {
   assertions: 0,
@@ -10,6 +11,8 @@ const INITIAL_STATE = {
 
 const player = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+  case CLEAR_STATE:
+    return INITIAL_STATE;
   case REFRESH_TIMER:
     return { ...state, timerBool: action.payload };
   case CREATE_OPTIONS:
