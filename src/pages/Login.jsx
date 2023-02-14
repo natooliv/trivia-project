@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import validator from 'validator';
-import { requestAPIToken, saveUserData } from '../redux/actions/actions';
+import { clearState, requestAPIToken, saveUserData } from '../redux/actions/actions';
 
 class Login extends Component {
   state = {
@@ -10,6 +10,11 @@ class Login extends Component {
     email: '',
     buttonDisabled: true,
   };
+
+  componentDidMount() {
+    const { dispatch } = this.props;
+    dispatch(clearState());
+  }
 
   handleChange = ({ target: { name, value } }) => {
     this.setState({ [name]: value }, this.buttonValidate);
